@@ -28,7 +28,7 @@ export default function App() {
     };
     const del = async (id) => {
         try {
-            // await deleteEmp(org.getNum(id));
+            await deleteEmp(org.getNum(id));
             org.del(id);
             setVps([...org.vps]);
         } catch (e) {

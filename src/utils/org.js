@@ -18,7 +18,6 @@ class Org {
     init = () => {
         this.vps = [];
         this.idsMap = {};
-        this._id = 100000;
         this._num = 0;
     };
     cache = users => {
@@ -69,7 +68,7 @@ class Org {
     getNew = managerId => {
         const newEmp = {
             num: this._num,
-            id: this._id++,
+            id: Math.floor(Math.random() * 100000000),
             emps: [],
             firstName: "new emp",
             managerId: managerId,
