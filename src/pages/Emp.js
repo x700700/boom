@@ -11,7 +11,7 @@ const Emp = ({ emp, level = 0, toggleFold, addEmp}) => {
                 <EmpDetails emp={emp} toggleFold={toggleFold} addEmp={addEmp}/>
             </div>
             {emp.fold && emp.emps.length && emp.emps.map(x => (
-                <Emp key={x.id} emp={x} level={level + 1} addEmp={addEmp}/>
+                <Emp key={x.id} emp={x} level={level + 1} toggleFold={toggleFold} addEmp={addEmp}/>
             ))}
         </div>
     );

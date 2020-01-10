@@ -38,15 +38,20 @@ class Org {
     toggleFold = id => {
         const emp = this.idsMap[id];
         emp.fold = !emp.fold;
-        console.warn('after fold - ', emp);
     };
 
     add = underId => {
+        const newEmp = {
+            id: this._id++,
+            emps: [],
+            firstName: "new emp",
+        };
         if (underId === null) {
-            this.vps.unshift({
-                id: this._id++,
-                firstName: "new emp"
-            });
+            this.vps.unshift(newEmp);
+        } else {
+            const emp = this.idsMap[underId];
+            emp.emps.unshift(newEmp);
+            emp.fold = true;
         }
     };
 }

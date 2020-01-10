@@ -6,6 +6,7 @@ const Icon = ({ fa, color, onClick, hide, rotate }) => {
     const styleIcon = {
         color: color || 'inherit',
         visibility: hide ? 'hidden' : 'visible',
+        cursor: hide ? 'default' : 'pointer',
         transform: rotate ? 'rotateX(180deg)' : 'rotateX(0deg)',
     };
     return (

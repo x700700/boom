@@ -17,7 +17,6 @@ export default function App() {
         setVps([...org.vps]);
     };
     const addEmp = id => {
-        console.warn("add under - ", id);
         org.add(id);
         setVps([...org.vps]);
     };
