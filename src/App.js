@@ -18,7 +18,7 @@ export default function App() {
     };
     const update = async (id, data) => {
         try {
-            await updateEmp(id, data);
+            await updateEmp(org.getNum(id), data);
             org.update(id, data);
             setVps([...org.vps]);
         } catch (e) {
@@ -31,18 +31,18 @@ export default function App() {
         setVps([...org.vps]);
     };
 
-    const [data, setData] = useState("");
+    const [orgData, orgSetData] = useState('');
     const load = useCallback(async () => {
         let resp;
         try {
             resp = await getAllOrg();
-            setData(resp);
+            orgSetData(resp);
             org.build(Object.values(resp.users)); // Todo - DB structure was modified from array to Object on bad update (id instead of #)
             setVps(org.vps);
         } catch (e) {
             console.error('error on loading org - ', e);
         }
-    }, [setData, setVps]);
+    }, [orgSetData, setVps]);
 
     useEffect(() => {
         console.log("Main mounted");
@@ -52,7 +52,7 @@ export default function App() {
     return (
         <div className="App">
             {user ? (
-                <Login data={data} onLogin={onLogin}/>
+                <Login data={orgData} onLogin={onLogin}/>
             ) : (
                 <Main vps={vps} add={add} toggleFold={toggleFold} update={update}/>
             )}

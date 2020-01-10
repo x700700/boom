@@ -9,12 +9,15 @@ class Org {
         this._id = 1;
     };
     cache = users => {
+        let i = 0;
         users.forEach(emp => {
             if (emp.id) {
+                emp.num = i;
                 emp.emps = [];
                 delete emp.password;
                 this.idsMap[emp.id] = emp;
             }
+            i++;
         });
     };
     build = users => {
@@ -42,6 +45,7 @@ class Org {
         emp.fold = !emp.fold;
     };
 
+    getNum = id => (this.idsMap[id] || {}).num;
     update = (id, data) => {
         this.idsMap[id] = {
             ...this.idsMap[id],
