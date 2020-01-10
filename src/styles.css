@@ -46,4 +46,12 @@ h1 {
     align-items: flex-end;
     display: flex;
     flex-direction: column;
+    position: relative;
+}
+.login-page .box .error-msg {
+    position: absolute;
+    bottom: .7rem;
+    left: 0;
+    margin: .5rem;
+    color: red;
 }

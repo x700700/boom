@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, {useRef, useState} from "react";
 import Input from "../Atoms/Input";
 import Button from "../Atoms/Button";
 import encode from "../utils/cryptolib";
@@ -7,13 +7,16 @@ const _email = "kameron.tedesco@tron.io";
 const _pass = "q;):Q2_v";
 
 const Login = ({ data, onLogin }) => {
+    const [error, setError] = useState(null);
     const handleSubmit = e => {
         e.preventDefault();
+        setError(null);
         const email = refEmail.current.value();
         const pass = refPass.current.value();
         console.warn("submit - ", email, pass);
         if (!email || !pass) {
             console.error("both fields required");
+            setError('Both fields are required');
         } else {
             const secret = encode(email, pass);
             console.log("secret = ", secret);
@@ -21,11 +24,13 @@ const Login = ({ data, onLogin }) => {
             console.log("user id = ", userId);
             if (!userId) {
                 console.error("secret was not found");
+                setError('Wrong email or password')
             } else {
                 const user = data.users.find(x => x.id === userId);
                 console.log("user found = ", user);
                 if (!user) {
                     console.error("no user found for userId =", userId);
+                    setError('User was not found')
                 } else {
                     onLogin(user);
                 }
@@ -46,6 +51,9 @@ const Login = ({ data, onLogin }) => {
                             <Input ref={refPass} label="password" type="password" width="13rem" defaultValue={_pass}/>
                             <Button label="Login"/>
                         </form>
+                        <div className="error-msg">
+                            {error}
+                        </div>
                     </div>
                 </div>
             )}
