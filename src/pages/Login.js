@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
-import Input from "./Atoms/Input";
-import Button from "./Atoms/Button";
-import encode from "./utils/cryptolib";
+import Input from "../Atoms/Input";
+import Button from "../Atoms/Button";
+import encode from "../utils/cryptolib";
 
 const _email = "kameron.tedesco@tron.io";
 const _pass = "q;):Q2_v";
