@@ -3,7 +3,7 @@ import "./styles.css";
 import org from "./utils/org";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
-import { getAllOrg, updateEmp } from "./utils/api";
+import { getAllOrg, addUpdateEmp } from "./utils/api";
 
 export default function App() {
     const [user, setUser] = useState();
@@ -18,7 +18,7 @@ export default function App() {
     };
     const update = async (id, data) => {
         try {
-            await updateEmp(org.getNum(id), data);
+            await addUpdateEmp(org.getNum(id), data);
             org.update(id, data);
             setVps([...org.vps]);
         } catch (e) {
@@ -26,9 +26,15 @@ export default function App() {
             setVps([...org.vps]); // To override rejected changes
         }
     };
-    const add = id => {
-        org.add(id);
-        setVps([...org.vps]);
+    const add = async (managerId) => {
+        try {
+            const newEmp = org.getNew(managerId);
+            await addUpdateEmp(newEmp.num, newEmp);
+            org.add(managerId, newEmp);
+            setVps([...org.vps]);
+        } catch (e) {
+            console.error('error on add - ', e);
+        }
     };
 
     const [orgData, orgSetData] = useState('');
