@@ -1,0 +1,9 @@
+.App {
+  font-family: sans-serif;
+  font-size: 1.2rem;
+}
+
+.emp-details {
+  display: flex;
+  align-items: center;
+}

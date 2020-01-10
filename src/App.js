@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useCallback, useState, useEffect } from "react";
+import "./styles.css";
+import { myFetch } from "./utils/myFetch";
+import Org from "./utils/org";
+import Login from "./Login";
+import Main from "./Main";
 
-function App() {
+let org;
+
+export default function App() {
+  const [user, setUser] = useState();
+  const onLogin = user => {
+    setUser(user);
+  };
+
+  const [vps, setVps] = useState();
+  const addEmp = id => {
+    console.warn("add under - ", id);
+    org.add(id);
+    setVps([...org.vps]);
+  };
+
+  const [data, setData] = useState("");
+  const load = useCallback(async () => {
+    const resp = await myFetch("");
+    setData(resp);
+    org = new Org(resp.users);
+    setVps(org.vps);
+  }, [setData, setVps]);
+
+  useEffect(() => {
+    console.log("Main mounted");
+    load();
+  }, [load]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {user ? (
+        <Login data={data} onLogin={onLogin} />
+      ) : (
+        <Main vps={vps} addEmp={addEmp} />
+      )}
     </div>
   );
 }
-
-export default App;
