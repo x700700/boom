@@ -11,7 +11,7 @@ const Emp = (props) => {
             <div style={styleEmp}>
                 <EmpDetails {...props} />
             </div>
-            {emp.fold && emp.emps.length && emp.emps.map(x => (
+            {emp.expand && emp.emps.length > 0 && emp.emps.map(x => (
                 <Emp {...props} key={x.id} emp={x} level={level + 1} />
             ))}
         </div>

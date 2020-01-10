@@ -3,7 +3,7 @@ import "./styles.css";
 import org from "./utils/org";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
-import { getAllOrg, addUpdateEmp } from "./utils/api";
+import { getAllOrg, addUpdateEmp, deleteEmp } from "./utils/api";
 
 export default function App() {
     const [user, setUser] = useState();
@@ -24,6 +24,15 @@ export default function App() {
         } catch (e) {
             console.error('error on update - ', e);
             setVps([...org.vps]); // To override rejected changes
+        }
+    };
+    const del = async (id) => {
+        try {
+            // await deleteEmp(org.getNum(id));
+            org.del(id);
+            setVps([...org.vps]);
+        } catch (e) {
+            console.error('error on delete - ', e);
         }
     };
     const add = async (managerId) => {
@@ -60,7 +69,7 @@ export default function App() {
             {user ? (
                 <Login data={orgData} onLogin={onLogin}/>
             ) : (
-                <Main vps={vps} add={add} toggleFold={toggleFold} update={update}/>
+                <Main vps={vps} add={add} toggleFold={toggleFold} update={update} del={del}/>
             )}
         </div>
     );

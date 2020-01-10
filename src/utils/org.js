@@ -1,3 +1,15 @@
+
+const delNode = (id, managerId, managerEmps, emp) => {
+    let updatedEmps = managerEmps.filter(x => x.id !== id);
+    if (emp.emps.length > 0) {
+        updatedEmps = updatedEmps.concat(emp.emps);
+        emp.emps.forEach((x) => {
+            x.managerId = managerId;
+        });
+    }
+    return updatedEmps;
+};
+
 class Org {
     constructor(users) {
         this.init();
@@ -42,7 +54,7 @@ class Org {
     };
     toggleFold = id => {
         const emp = this.idsMap[id];
-        emp.fold = !emp.fold;
+        emp.expand = !emp.expand;
     };
 
     getNum = id => (this.idsMap[id] || {}).num;
@@ -72,8 +84,19 @@ class Org {
         } else {
             const emp = this.idsMap[managerId];
             emp.emps.unshift(newEmp);
-            emp.fold = true;
+            emp.expand = true;
         }
+    };
+
+    del = (id) => {
+        const emp = this.idsMap[id];
+        const manager = emp.managerId ? this.idsMap[emp.managerId] || {} : null;
+        if (manager) {
+            manager.emps = delNode(id, manager.id, manager.emps, emp);
+        } else {
+            this.vps = delNode(id, null, this.vps, emp);
+        }
+        delete this.idsMap[id];
     };
 }
 
