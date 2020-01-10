@@ -2,8 +2,8 @@ import React from "react";
 
 const Button = ({ label }) => {
   return (
-    <div>
-      <input type="submit" value={label} />
+    <div className="my-form-btn-container">
+      <input className="my-btn" type="submit" value={label} />
     </div>
   );
 };
