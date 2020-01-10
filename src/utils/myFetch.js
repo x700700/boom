@@ -1,10 +1,17 @@
 const api = "https://gongfetest.firebaseio.com";
 
-const myFetch = (cmd) => {
+const myFetch = (method, endpoint, data) => {
     return new Promise((resolve, reject) => {
-        const endpoint = `${api}/${cmd}/.json`;
-        console.log('<<<<<', endpoint);
-        fetch(endpoint)
+        const url = `${api}/${endpoint}/.json`;
+        console.log('<<<<<', method, url);
+
+        fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: data && JSON.stringify(data),
+        })
             .then(response => response.json())
             .then(json => {
                 console.log('>>>>>', json);

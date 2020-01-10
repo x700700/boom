@@ -10,26 +10,28 @@ class Org {
     };
     cache = users => {
         users.forEach(emp => {
-            emp.emps = [];
-            delete emp.password;
-            this.idsMap[emp.id] = emp;
+            if (emp.id) {
+                emp.emps = [];
+                delete emp.password;
+                this.idsMap[emp.id] = emp;
+            }
         });
     };
     build = users => {
         this.init();
         this.cache(users);
         users.forEach(emp => {
-            if (!emp.managerId) {
-                // No manager
-                this.vps.push(emp);
-            } else {
-                const manager = this.idsMap[emp.managerId];
-                if (!manager) {
-                    console.log(
-                        `emp [${emp.id}] has unknown manager id [${emp.managerId}]`
-                    );
+            if (emp.id) {
+                if (!emp.managerId) {
+                    // No manager
+                    this.vps.push(emp);
                 } else {
-                    manager.emps.push(emp);
+                    const manager = this.idsMap[emp.managerId];
+                    if (!manager) {
+                        console.log(`emp [${emp.id}] has unknown manager id [${emp.managerId}]`);
+                    } else {
+                        manager.emps.push(emp);
+                    }
                 }
             }
         });
