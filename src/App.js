@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import "./styles.css";
-import { myFetch } from "./utils/myFetch";
+import myFetch from "./utils/myFetch";
 import org from "./utils/org";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
@@ -16,7 +16,11 @@ export default function App() {
         org.toggleFold(id);
         setVps([...org.vps]);
     };
-    const addEmp = id => {
+    const update = (id, data) => {
+        org.update(id, data);
+        setVps([...org.vps]);
+    };
+    const add = id => {
         org.add(id);
         setVps([...org.vps]);
     };
@@ -39,7 +43,7 @@ export default function App() {
             {user ? (
                 <Login data={data} onLogin={onLogin}/>
             ) : (
-                <Main vps={vps} addEmp={addEmp} toggleFold={toggleFold}/>
+                <Main vps={vps} add={add} toggleFold={toggleFold} update={update}/>
             )}
         </div>
     );

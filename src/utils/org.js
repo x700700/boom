@@ -40,16 +40,25 @@ class Org {
         emp.fold = !emp.fold;
     };
 
-    add = underId => {
+    update = (id, data) => {
+        this.idsMap[id] = {
+            ...this.idsMap[id],
+            ...data,
+        };
+        console.warn('updated - ', this.idsMap[id]);
+    };
+
+    add = parentId => {
         const newEmp = {
             id: this._id++,
             emps: [],
             firstName: "new emp",
         };
-        if (underId === null) {
+        this.idsMap[newEmp.id] = newEmp;
+        if (parentId === null) {
             this.vps.unshift(newEmp);
         } else {
-            const emp = this.idsMap[underId];
+            const emp = this.idsMap[parentId];
             emp.emps.unshift(newEmp);
             emp.fold = true;
         }
