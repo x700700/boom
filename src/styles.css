@@ -39,8 +39,9 @@ h1 {
     font-weight: 300;
 }
 .login-page .container .box {
-    margin: 0 25%;
-    width: 50%;
+    margin: 0 auto;
+    width: 38%;
+    min-width: 22rem;
     border: 1px #000 solid;
     padding: 1rem;
     align-items: flex-end;
