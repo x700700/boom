@@ -1,9 +1,11 @@
 import React from "react";
+import "../styles.css"
 import Emp from "./Emp";
 import Icon from "../Atoms/Icon";
 
 const Main = (props) => {
-    const {vps, add} = props;
+    const {user, vps, add, logout} = props;
+
     return (
         <div>
             <h1>Organization</h1>
@@ -17,6 +19,13 @@ const Main = (props) => {
                     ))}
                 </div>
             )}
+            <div className="user-details-box">
+                <div>
+                    <span style={{ color: '#666' }}>Hello </span>
+                    <span style={{ fontWeight: 500 }}>{user.email}</span>
+                </div>
+                <div className="btn" onClick={logout}>Logout</div>
+            </div>
         </div>
     );
 };

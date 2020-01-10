@@ -10,6 +10,9 @@ export default function App() {
     const onLogin = user => {
         setUser(user);
     };
+    const logout = () => {
+        setUser(null);
+    };
 
     const [vps, setVps] = useState();
     const toggleFold = id => {
@@ -70,10 +73,11 @@ export default function App() {
 
     return (
         <div className="App">
-            {user ? (
+            {!user ? (
                 <Login data={orgData} onLogin={onLogin}/>
             ) : (
-                <Main vps={vps} add={add} toggleFold={toggleFold} setModified={setModified} update={update} del={del}/>
+                <Main user={user} logout={logout}
+                      vps={vps} add={add} toggleFold={toggleFold} setModified={setModified} update={update} del={del}/>
             )}
         </div>
     );
