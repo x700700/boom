@@ -11,7 +11,6 @@ const EmpDetails = ({ emp, toggleFold, addEmp }) => {
         addEmp(emp.id);
     };
 
-
     return (
         <div className="emp-details">
             <Icon fa="sort-down" hide={!emp.emps.length} rotate={emp.fold} onClick={toggle}/>

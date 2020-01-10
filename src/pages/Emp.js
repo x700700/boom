@@ -1,17 +1,18 @@
 import React from "react";
 import EmpDetails from "./EmpDetails";
 
-const Emp = ({ emp, level = 0, toggleFold, addEmp}) => {
+const Emp = (props) => {
+    const { level = 0, emp } = props;
     const styleEmp = {
         marginLeft: `${level * 2}rem`,
     };
     return (
         <div>
             <div style={styleEmp}>
-                <EmpDetails emp={emp} toggleFold={toggleFold} addEmp={addEmp}/>
+                <EmpDetails {...props} />
             </div>
             {emp.fold && emp.emps.length && emp.emps.map(x => (
-                <Emp key={x.id} emp={x} level={level + 1} toggleFold={toggleFold} addEmp={addEmp}/>
+                <Emp {...props} key={x.id} emp={x} level={level + 1} />
             ))}
         </div>
     );
