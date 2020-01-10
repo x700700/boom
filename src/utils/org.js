@@ -1,11 +1,13 @@
+import {addUpdateEmp} from "./api";
 
-const delNode = (id, managerId, managerEmps, emp) => {
+const delNode = async (id, managerId, managerEmps, emp) => {
     let updatedEmps = managerEmps.filter(x => x.id !== id);
     if (emp.emps.length > 0) {
         updatedEmps = updatedEmps.concat(emp.emps);
-        emp.emps.forEach((x) => {
-            x.managerId = managerId;
-        });
+        for (let i=0 ; i < emp.emps.length ; i++) {
+            await addUpdateEmp(org.getNum(emp.emps[i].id), { managerId: managerId });
+            emp.emps[i].managerId = managerId;
+        }
     }
     return updatedEmps;
 };
@@ -22,7 +24,7 @@ class Org {
     };
     cache = users => {
         users.forEach(emp => {
-            if (emp.id) {
+            if (emp && emp.id) {
                 emp.num = this._num;
                 emp.emps = [];
                 delete emp.password;
@@ -35,7 +37,7 @@ class Org {
         this.init();
         this.cache(users);
         users.forEach(emp => {
-            if (emp.id) {
+            if (emp && emp.id) {
                 if (!emp.managerId) {
                     // No manager
                     this.vps.unshift(emp);
@@ -55,14 +57,18 @@ class Org {
         const emp = this.idsMap[id];
         emp.expand = !emp.expand;
     };
+    setModified = id => {
+        const emp = this.idsMap[id];
+        emp.modified = true;
+    };
 
     getNum = id => (this.idsMap[id] || {}).num;
     update = (id, data) => {
-        this.idsMap[id] = {
-            ...this.idsMap[id],
-            ...data,
-        };
-        console.warn('updated - ', this.idsMap[id]);
+        const emp = this.idsMap[id];
+        Object.keys(data).forEach((key) => {
+            emp[key] = data[key];
+        });
+        emp.modified = false;
     };
 
     getNew = managerId => {
@@ -87,13 +93,13 @@ class Org {
         }
     };
 
-    del = (id) => {
+    del = async (id) => {
         const emp = this.idsMap[id];
         const manager = emp.managerId ? this.idsMap[emp.managerId] || {} : null;
         if (manager) {
-            manager.emps = delNode(id, manager.id, manager.emps, emp);
+            manager.emps = await delNode(id, manager.id, manager.emps, emp);
         } else {
-            this.vps = delNode(id, null, this.vps, emp);
+            this.vps = await delNode(id, null, this.vps, emp);
         }
         delete this.idsMap[id];
     };

@@ -16,6 +16,10 @@ export default function App() {
         org.toggleFold(id);
         setVps([...org.vps]);
     };
+    const setModified = id => {
+        org.setModified(id);
+        setVps([...org.vps]);
+    };
     const update = async (id, data) => {
         try {
             await addUpdateEmp(org.getNum(id), data);
@@ -29,7 +33,7 @@ export default function App() {
     const del = async (id) => {
         try {
             await deleteEmp(org.getNum(id));
-            org.del(id);
+            await org.del(id);
             setVps([...org.vps]);
         } catch (e) {
             console.error('error on delete - ', e);
@@ -69,7 +73,7 @@ export default function App() {
             {user ? (
                 <Login data={orgData} onLogin={onLogin}/>
             ) : (
-                <Main vps={vps} add={add} toggleFold={toggleFold} update={update} del={del}/>
+                <Main vps={vps} add={add} toggleFold={toggleFold} setModified={setModified} update={update} del={del}/>
             )}
         </div>
     );
