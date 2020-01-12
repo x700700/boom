@@ -6,7 +6,7 @@ import encode from "../utils/cryptolib";
 const _email = "kameron.tedesco@tron.io";
 const _pass = "q;):Q2_v";
 
-const Login = ({ data, onLogin }) => {
+const Login = ({ secrets, users, onLogin }) => {
     const [error, setError] = useState(null);
     const handleSubmit = e => {
         e.preventDefault();
@@ -14,27 +14,20 @@ const Login = ({ data, onLogin }) => {
         const email = refEmail.current.value();
         const pass = refPass.current.value();
         console.warn("submit - ", email, pass);
-        if (!email || !pass) {
-            console.error("both fields required");
-            setError('Both fields are required');
-        } else {
+        try {
+            if (!email || !pass) throw new Error('Both fields are required');
             const secret = encode(email, pass);
             console.log("secret = ", secret);
-            const userId = data.secrets[secret];
+            const userId = secrets[secret];
             console.log("user id = ", userId);
-            if (!userId) {
-                console.error("secret was not found");
-                setError('Wrong email or password')
-            } else {
-                const user = data.users.find(x => x.id === userId);
-                console.log("user found = ", user);
-                if (!user) {
-                    console.error("no user found for userId =", userId);
-                    setError('User was not found')
-                } else {
-                    onLogin(user);
-                }
-            }
+            if (!userId) throw new Error('Wrong email or password');
+            const user = users.find(x => x.id === userId);
+            console.log("user found = ", user);
+            if (!user) throw new Error('User was not found');
+            onLogin(user);
+        } catch (e) {
+            console.error(e.message);
+            setError(e.message);
         }
     };
 
@@ -42,7 +35,7 @@ const Login = ({ data, onLogin }) => {
     const refPass = useRef();
     return (
         <div className="login-page">
-            {data && (
+            {secrets && (
                 <div className="container">
                     <div className="title">Please login</div>
                     <div className="box">

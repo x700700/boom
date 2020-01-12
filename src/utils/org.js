@@ -4,7 +4,9 @@ const delNode = async (id, managerId, managerEmps, emp) => {
     let updatedEmps = managerEmps.filter(x => x.id !== id);
     if (emp.emps.length > 0) {
         updatedEmps = updatedEmps.concat(emp.emps);
+
         for (let i=0 ; i < emp.emps.length ; i++) {
+            // Todo - man, promise.all... (and then back to forEach)
             await addUpdateEmp(org.getNum(emp.emps[i].id), { managerId: managerId });
             emp.emps[i].managerId = managerId;
         }

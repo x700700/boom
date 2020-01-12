@@ -15,3 +15,6 @@ export const getAllOrg = () => mock;
 export const addUpdateEmp = (num, data) => {};
 export const deleteEmp = (num) => {};
 
+export const getSecrets = () => mock.secrets;
+export const getAllUsers = () => mock.users;
+

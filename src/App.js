@@ -3,7 +3,7 @@ import "./styles.css";
 import org from "./utils/org";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
-import { getAllOrg, addUpdateEmp, deleteEmp } from "./utils/api";
+import {getAllOrg, addUpdateEmp, deleteEmp, getSecrets, getAllUsers} from "./utils/api";
 
 export default function App() {
     const [user, setUser] = useState();
@@ -53,28 +53,31 @@ export default function App() {
         }
     };
 
-    const [orgData, orgSetData] = useState('');
+    const [secrets, setSecrets] = useState();
+    const [users, setUsers] = useState();
     const load = useCallback(async () => {
-        let resp;
         try {
-            resp = await getAllOrg();
-            orgSetData(resp);
-            org.build(Object.values(resp.users)); // Todo - DB structure was modified from array to Object on bad update (id instead of #)
+            const secrets = await getSecrets();
+            setSecrets(secrets);
+            const users = await getAllUsers();
+            setUsers(users);
+
+            org.build(Object.values(users)); // Todo - DB structure was modified from array to Object on bad update (id instead of #)
             setVps(org.vps);
         } catch (e) {
             console.error('error on loading org - ', e);
         }
-    }, [orgSetData, setVps]);
+    }, [setSecrets, setUsers, setVps]);
 
     useEffect(() => {
-        console.log("Main mounted");
+        console.log("App mounted");
         load();
     }, [load]);
 
     return (
         <div className="App">
             {!user ? (
-                <Login data={orgData} onLogin={onLogin}/>
+                <Login secrets={secrets} users={users} onLogin={onLogin}/>
             ) : (
                 <Main user={user} logout={logout}
                       vps={vps} add={add} toggleFold={toggleFold} setModified={setModified} update={update} del={del}/>
