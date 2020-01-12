@@ -57,6 +57,11 @@ class Org {
         const emp = this.idsMap[id];
         emp.expand = !emp.expand;
     };
+    toggleFoldAll = (toggle) => {
+        this.idsMap.forEach((emp) => {
+            emp.expand = toggle;
+        });
+    };
     setModified = id => {
         const emp = this.idsMap[id];
         emp.modified = true;

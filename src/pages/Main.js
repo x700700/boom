@@ -11,7 +11,9 @@ const Main = (props) => {
             <h1>Organization</h1>
             {vps && (
                 <div>
-                    <Icon fa="plus-square" color="blue" onClick={() => add(null)}/>
+                    <div className="tree-actions">
+                        <Icon fa="plus-square" color="blue" onClick={() => add(null)}/>
+                    </div>
                     {vps.map(emp => (
                         <div key={emp.id}>
                             <Emp {...props} emp={emp} />
