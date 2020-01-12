@@ -145,6 +145,32 @@ class Org {
         }
         delete this.idsMap[id];
     };
+
+
+    summarize = () => {
+        this.summary = {
+            numTeams: this.vps.length,
+            numTotal: null,
+            teams: this._summarize(1, this.vps),
+        };
+        this.summary.numTotal = Object.values(this.summary.teams).reduce((a, x) => a + x.numTotal, 0);
+        console.log(this.summary);
+        return this.summary;
+    };
+    _summarize = (level, emps) => {
+        const sum = {};
+        emps.forEach((team, i) => {
+            sum[i] = {
+                numTeams: team.emps.length,
+                numTotal: null,
+                teams: this._summarize(1, team.emps),
+            };
+        });
+        Object.values(sum).forEach((team, i) => {
+            sum[i].numTotal = Object.values(team.teams).reduce((a, x) => a + x.numTotal, 0) + 1;
+        });
+        return sum;
+    };
 }
 
 const org = new Org();
