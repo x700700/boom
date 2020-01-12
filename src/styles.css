@@ -56,3 +56,11 @@ h1 {
     margin: .5rem;
     color: red;
 }
+
+
+.emp-node .emp-emps-box {
+    height: fit-content;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .25s ease-in-out;
+}

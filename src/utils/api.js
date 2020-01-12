@@ -29,6 +29,6 @@ export const getAllUsers = () => mock.users;
 
 const PAGE_SIZE = 5;
 export const getUsersPage = async (page) => {
-    await sleep(2000);
+    await sleep(10);
     return mock.users.slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE);
 };
