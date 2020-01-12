@@ -18,3 +18,6 @@ export const deleteEmp = (num) => {};
 export const getSecrets = () => mock.secrets;
 export const getAllUsers = () => mock.users;
 
+
+const PAGE_SIZE = 5;
+export const getUsersPage = (page) => mock.users.slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE);

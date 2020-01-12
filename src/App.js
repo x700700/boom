@@ -3,7 +3,7 @@ import "./styles.css";
 import org from "./utils/org";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
-import {getAllOrg, addUpdateEmp, deleteEmp, getSecrets, getAllUsers} from "./utils/api";
+import {addUpdateEmp, deleteEmp, getSecrets, getAllUsers, getUsersPage} from "./utils/api";
 
 export default function App() {
     const [user, setUser] = useState();
@@ -55,24 +55,38 @@ export default function App() {
 
     const [secrets, setSecrets] = useState();
     const [users, setUsers] = useState();
-    const load = useCallback(async () => {
+    const loadAuth = useCallback(async () => {
         try {
             const secrets = await getSecrets();
             setSecrets(secrets);
             const users = await getAllUsers();
             setUsers(users);
+        } catch (e) {
+            console.error('error on loading auth info - ', e);
+        }
+    }, [setSecrets, setUsers]);
 
-            org.build(Object.values(users)); // Todo - DB structure was modified from array to Object on bad update (id instead of #)
-            setVps(org.vps);
+    const loadOrg = useCallback(async () => {
+        try {
+            org.init();
+            let page = 1;
+            let orgPage = await getUsersPage(page++);
+            while (orgPage.length > 0) {
+                console.debug(`page #${page} - `, orgPage);
+                org.addPage(Object.values(orgPage)); // Todo - DB structure was modified from array to Object on bad update (id instead of #)
+                setVps(org.vps);
+                orgPage = await getUsersPage(page++);
+            }
         } catch (e) {
             console.error('error on loading org - ', e);
         }
-    }, [setSecrets, setUsers, setVps]);
+    }, [setVps]);
 
     useEffect(() => {
         console.log("App mounted");
-        load();
-    }, [load]);
+        loadAuth();
+        loadOrg();
+    }, [loadAuth, loadOrg]);
 
     return (
         <div className="App">

@@ -23,6 +23,7 @@ class Org {
         this.vps = [];
         this.idsMap = {};
         this._num = 0;
+        this.unprocessedEmps = {};
     };
     cache = users => {
         users.forEach(emp => {
@@ -55,6 +56,40 @@ class Org {
         });
         console.log("org vp's: ", this.vps);
     };
+
+
+    getSize = (arr) => {
+        return arr.length + arr.reduce((a, emp) => a + this.getSize(emp.emps), 0);
+    };
+    addNode = emp => {
+        if (emp && emp.id) {
+            if (!emp.managerId) {
+                // No manager
+                this.vps.unshift(emp);
+            } else {
+                const manager = this.idsMap[emp.managerId];
+                if (!manager) {
+                    // console.log(`emp [${emp.id}] manager id [${emp.managerId}] was not loaded yet`);
+                    this.unprocessedEmps[emp.id] = emp;
+                } else {
+                    manager.emps.unshift(emp);
+                    delete this.unprocessedEmps[emp.id];
+                }
+            }
+        }
+    };
+    addPage = users => {
+        this.cache(users);
+        Object.values(this.unprocessedEmps).forEach(emp => { this.addNode(emp) });
+        users.forEach(emp => {
+            this.addNode(emp);
+        });
+        console.log("org size: ", this.getSize(this.vps));
+        // console.log("org vp's: ", this.vps);
+    };
+
+
+
     toggleFold = id => {
         const emp = this.idsMap[id];
         emp.expand = !emp.expand;
