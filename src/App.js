@@ -5,6 +5,9 @@ import Login from "./pages/Login";
 import Main from "./pages/Main";
 import {addUpdateEmp, deleteEmp, getSecrets, getAllUsers, getUsersPage} from "./utils/api";
 
+// App comp is actually the application store -
+// Since we're not Redux, then App's state is the application store.
+
 export default function App() {
     const [user, setUser] = useState();
     const onLogin = user => {
@@ -87,6 +90,29 @@ export default function App() {
         loadAuth();
         loadOrg();
     }, [loadAuth, loadOrg]);
+
+    /*
+    // Todo - Code Debts:
+    //
+    //  Display/Edit all emp info (email, image, etc.)
+    //  Promise.all delNode function
+    //  Transactions layer - e.g. consider del was broken vs api - should rollback both db and mem tree
+    //  fetch -> axios + retires
+    //  refactor org.js to tree.js for reusability
+    //  css -> sass / organize css files
+    //  styling
+    //  Split few components: Main
+    //
+
+    // Todo - Reasonable Next Features:
+    //
+    //  Move node
+    //  Reports - tree trip....
+    //  Collapse/Expand all
+    //  Data fetch pagination
+    //  Change Password
+    //
+    */
 
     return (
         <div className="App">

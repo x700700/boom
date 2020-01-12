@@ -1,6 +1,6 @@
 import React, {useRef, useState} from "react";
 import Input from "../Atoms/Input";
-import Button from "../Atoms/Button";
+import SubmitButton from "../Atoms/SubmitButton";
 import encode from "../utils/cryptolib";
 
 const _email = "kameron.tedesco@tron.io";
@@ -42,7 +42,7 @@ const Login = ({ secrets, users, onLogin }) => {
                         <form autoComplete="off" onSubmit={handleSubmit}>
                             <Input ref={refEmail} label="email address" width="13rem" defaultValue={_email}/>
                             <Input ref={refPass} label="password" type="password" width="13rem" defaultValue={_pass}/>
-                            <Button label="Login"/>
+                            <SubmitButton label="Login"/>
                         </form>
                         <div className="error-msg">
                             {error}
