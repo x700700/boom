@@ -74,7 +74,7 @@ export default function App() {
             while (orgPage.length > 0) {
                 console.debug(`page #${page} - `, orgPage);
                 org.addPage(Object.values(orgPage)); // Todo - DB structure was modified from array to Object on bad update (id instead of #)
-                setVps(org.vps);
+                setVps([...org.vps]);
                 orgPage = await getUsersPage(page++);
             }
         } catch (e) {
