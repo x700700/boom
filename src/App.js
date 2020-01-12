@@ -4,6 +4,7 @@ import org from "./utils/org";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
 import {addUpdateEmp, deleteEmp, getSecrets, getAllUsers, getUsersPage} from "./utils/api";
+import Report from "./pages/Report";
 
 // App comp is actually the application store -
 // Since we're not Redux, then App's state is the application store.
@@ -15,6 +16,12 @@ export default function App() {
     };
     const logout = () => {
         setUser(null);
+        setShowReport(false);
+    };
+
+    const [showReport, setShowReport] = useState(false);
+    const toggleShowReport = () => {
+        setShowReport(!showReport);
     };
 
     const [vps, setVps] = useState();
@@ -116,11 +123,13 @@ export default function App() {
 
     return (
         <div className="App">
-            {!user ? (
+            {user ? ( // Todo - REPLACE BACK TO ! ('not')
                 <Login secrets={secrets} users={users} onLogin={onLogin}/>
-            ) : (
-                <Main user={user} logout={logout}
+            ) : (!showReport ?
+                <Main user={user} logout={logout} toggleShowReport={toggleShowReport}
                       vps={vps} add={add} toggleFold={toggleFold} setModified={setModified} update={update} del={del}/>
+                :
+                <Report toggleShowReport={toggleShowReport}/>
             )}
         </div>
     );
