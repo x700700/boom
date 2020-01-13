@@ -8,7 +8,7 @@ function* actionWatcher() {
     yield takeLatest(types.saga.signin, sagasApp.signin);
     yield takeLatest(types.saga.signout, sagasApp.signout);
 
-    yield takeLatest(types.saga.getEmpsList, sagasOrg.getEmpsList);
+    yield takeLatest(types.saga.loadOrg, sagasOrg.loadOrg);
 }
 
 

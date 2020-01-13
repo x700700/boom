@@ -34,5 +34,5 @@ export function* signout(action) {
 }
 
 export function* cleanLists(action) {
-    yield put({ type: types.FETCH_EMPS_RESET });
+    yield put({ type: types.RESET_ORG });
 }

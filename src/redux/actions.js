@@ -14,6 +14,6 @@ export const signin = ({ email, password }) => ({
 // ============================================================================================================
 // ============================================================================================================
 
-export const getEmpsList = ({ add, search, sort, start }) => ({
-    type: types.saga.getEmpsList,
+export const loadOrg = () => ({
+    type: types.saga.loadOrg,
 });

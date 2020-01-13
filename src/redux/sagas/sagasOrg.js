@@ -3,12 +3,13 @@ import * as types from '../actionsTypes';
 import * as api from '../api';
 
 
-export function* getEmpsList(action) {
+export function* loadOrg(action) {
     try {
-        yield put({ type: types.FETCH_EMPS_START });
+        yield put({ type: types.FETCH_ORG_START });
         const resp = yield call(api.getAllUsers);
-        yield put({ type: types.FETCH_EMPS_SUCCEED, empsMap: resp });
+        yield put({ type: types.FETCH_ORG_SUCCEED, empsMap: resp });
     } catch (e) {
-        yield put({ type: types.FETCH_EMPS_FAILED });
+        yield put({ type: types.FETCH_ORG_FAILED });
+        yield put({ type: types.APP_SET_ERROR, error: e.message });
     }
 }

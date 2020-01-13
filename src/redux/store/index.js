@@ -1,7 +1,7 @@
 import app from './app';
-import emps from './emps'
+import org from './org'
 
 export default {
     app,
-    emps,
+    org,
 };
